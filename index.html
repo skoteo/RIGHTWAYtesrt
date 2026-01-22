@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right Way | Official Store</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --color-bg: #d9d9d9;
+            --color-accent: #6B0000;
+            --color-text: #1f1f1f;
+            --color-text-light: #666666;
+            --color-placeholder: #000000;
+            
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            --spacing-container: 4vw;
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+        ul { list-style: none; }
+
+        /* --- 2. TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .display-text {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .text-body-large {
+            font-size: 1.25rem;
+            max-width: 600px;
+            color: var(--color-text);
+        }
+
+        /* --- 3. UTILITIES & ANIMATION --- */
+        .container {
+            padding: 0 var(--spacing-container);
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background-color: transparent;
+            border: 2px solid var(--color-text);
+            color: var(--color-text);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: #fff;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-placeholder {
+            background-color: var(--color-placeholder);
+            width: 100%;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        /* --- 4. NAVIGATION (Fixed Logic) --- */
+        .nav-trigger {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 20px;
+            z-index: 101;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            
+            /* Logic: By default inverted colors (difference) */
+            mix-blend-mode: difference; 
+            color: #fff; 
+            background-color: transparent;
+
+            /* FIX: Only animate the movement (transform). 
+               Do NOT animate background/color to avoid black flash on blend-mode switch. */
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        /* When Hovering Nav OR Top Trigger */
+        nav:hover, .nav-trigger:hover + nav {
+            transform: translateY(0);
+            
+            /* Switch to normal mode instantly for clean look */
+            mix-blend-mode: normal; 
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .nav-links a { position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
+            background-color: currentColor; transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- 5. HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 var(--spacing-container);
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 80%;
+        }
+
+        .hero-accent-line {
+            width: 80px;
+            height: 4px;
+            background-color: var(--color-accent);
+            margin-bottom: 2rem;
+            transform-origin: left;
+            animation: growLine 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes growLine {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        /* --- 6. ABOUT SECTION --- */
+        .about { padding: 10rem 0; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h2 { margin-bottom: 2rem; }
+        .about-img { height: 600px; }
+
+        /* --- 7. COLLECTION SECTION --- */
+        .collection { padding: 5rem 0; }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem; /* Column gap */
+            row-gap: 4rem;
+        }
+
+        .product-card { cursor: pointer; }
+
+        .product-img {
+            height: 450px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-img { transform: scale(0.98); }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .product-name { font-size: 1.1rem; }
+        .product-price { color: var(--color-accent); font-weight: 700; }
+
+        /* --- 8. LOOKBOOK SECTION --- */
+        .lookbook {
+            padding: 10rem 0;
+            background-color: #cfcfcf; /* Slightly darker to differentiate section */
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 200px;
+            gap: 1.5rem;
+        }
+
+        .gallery-item { position: relative; }
+
+        /* Brutalist asymmetry */
+        .g-1 { grid-column: span 6; grid-row: span 3; }
+        .g-2 { grid-column: span 6; grid-row: span 2; }
+        .g-3 { grid-column: span 3; grid-row: span 2; }
+        .g-4 { grid-column: span 3; grid-row: span 1; }
+
+        .gallery-img {
+            height: 100%;
+            transition: opacity 0.4s;
+        }
+
+        .gallery-item:hover .gallery-img { opacity: 0.8; }
+
+        /* --- 9. FOOTER --- */
+        footer {
+            background-color: #111;
+            color: #fff;
+            padding: 6rem var(--spacing-container) 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: #888;
+            max-width: 300px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 4rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-accent);
+        }
+
+        .footer-col ul li { margin-bottom: 0.8rem; }
+
+        .footer-col ul li a {
+            color: #aaa;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover { color: #fff; }
+
+        .copyright {
+            border-top: 1px solid #222;
+            padding-top: 2rem;
+            text-align: center;
+            color: #444;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .about-img { height: 400px; order: -1; }
+        }
+
+        @media (max-width: 768px) {
+            .display-text { font-size: 4rem; }
+            .gallery-grid { display: flex; flex-direction: column; }
+            .g-1, .g-2, .g-3, .g-4 { height: 400px; }
+            .footer-content { flex-direction: column; gap: 3rem; }
+            .nav-links { display: none; } /* Simplified for demo */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-trigger"></div>
+
+    <nav id="main-nav">
+        <a href="#" class="logo">RIGHT WAY</a>
+        <div class="nav-links">
+            <a href="#collection">Shop</a>
+            <a href="#about">About</a>
+            <a href="#lookbook">Lookbook</a>
+            <a href="#footer">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-accent-line"></div>
+            <h1 class="display-text reveal">DISCIPLINE IS<br>THE ULTIMATE<br>FREEDOM.</h1>
+            <p class="text-body-large reveal" style="transition-delay: 0.2s; margin-bottom: 2.5rem;">
+                Premium streetwear for those who choose the hard path.
+            </p>
+            <div class="reveal" style="transition-delay: 0.4s;">
+                <a href="#collection" class="btn">View Collection</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="section-title reveal">The Philosophy</h2>
+                    <p class="text-body-large reveal">
+                        Right Way it's not that short and it's not that simple. It's a path where efficiency meets responsibility, and results meet respect.
+                        <br><br>
+                        Right Way — is what you need.
+                    </p>
+                </div>
+                <div class="about-img img-placeholder reveal"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="collection" class="collection">
+        <div class="container">
+            <div class="collection-header reveal">
+                <h2 class="section-title" style="margin-bottom:0">Latest Drop</h2>
+                <a href="#" style="text-decoration: underline; font-family: var(--font-heading);">View All</a>
+            </div>
+
+            <div class="product-grid">
+                <div class="product-card reveal">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Structure Hoodie</span>
+                        <span class="product-price">$180</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.1s;">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Oversized Tee</span>
+                        <span class="product-price">$85</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.2s;">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Cargo Trousers</span>
+                        <span class="product-price">$220</span>
+                    </div>
+                </div>
+
+                 <div class="product-card reveal">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Tactical Vest</span>
+                        <span class="product-price">$350</span>
+                    </div>
+                </div>
+
+                 <div class="product-card reveal" style="transition-delay: 0.1s;">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Shell Jacket</span>
+                        <span class="product-price">$410</span>
+                    </div>
+                </div>
+
+                 <div class="product-card reveal" style="transition-delay: 0.2s;">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Utility Belt</span>
+                        <span class="product-price">$60</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="lookbook" class="lookbook">
+        <div class="container">
+            <h2 class="section-title reveal" style="margin-bottom: 2rem; color: #1f1f1f;">Visual Index</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item g-1 reveal"><div class="gallery-img img-placeholder"></div></div>
+                <div class="gallery-item g-2 reveal" style="transition-delay: 0.1s;"><div class="gallery-img img-placeholder"></div></div>
+                <div class="gallery-item g-3 reveal" style="transition-delay: 0.2s;"><div class="gallery-img img-placeholder"></div></div>
+                <div class="gallery-item g-4 reveal" style="transition-delay: 0.3s;"><div class="gallery-img img-placeholder"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>RIGHT WAY</h3>
+                <p>Choose the right path. Designed in the shadows, built for the light.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Outerwear</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Brand</h4>
+                    <ul>
+                        <li><a href="#">Philosophy</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter/X</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Right Way Clothing. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. NAV SCROLL LOGIC
+            const nav = document.getElementById('main-nav');
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                // Hide nav only if scrolling DOWN and not at the very top
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    nav.classList.add('nav-hidden');
+                } else {
+                    nav.classList.remove('nav-hidden');
+                }
+                lastScrollY = currentScrollY;
+            });
+
+            // 2. REVEAL ANIMATIONS
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
