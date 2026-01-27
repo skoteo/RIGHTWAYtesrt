@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title | Right Way</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --color-bg: #d9d9d9;
+            --color-accent: #6B0000;
+            --color-text: #1f1f1f;
+            --color-text-light: #666666;
+            --color-placeholder: #000000;
+            
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            --spacing-container: 4vw;
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+        ul { list-style: none; }
+
+        /* --- 2. TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .page-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .text-body-large {
+            font-size: 1.25rem;
+            max-width: 600px;
+            color: var(--color-text);
+        }
+
+        /* --- 3. UTILITIES & ANIMATION --- */
+        .container {
+            padding: 0 var(--spacing-container);
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background-color: transparent;
+            border: 2px solid var(--color-text);
+            color: var(--color-text);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: #fff;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-placeholder {
+            background-color: var(--color-placeholder);
+            width: 100%;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        /* --- 4. NAVIGATION --- */
+        .nav-trigger {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 20px;
+            z-index: 101;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            
+            background-color: var(--color-bg); 
+            color: var(--color-text);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+
+        .nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        nav:hover, .nav-trigger:hover + nav {
+            transform: translateY(0);
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .nav-links a { position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
+            background-color: currentColor; transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- 5. PAGE HEADER --- */
+        .page-header {
+            padding: 12rem 0 4rem;
+            text-align: center;
+        }
+
+        .page-header .page-title {
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- 6. CONTENT SECTION (CUSTOMIZE THIS) --- */
+        .content-section {
+            padding: 4rem 0 8rem;
+        }
+
+        /* Add your custom styles here for the specific page content */
+
+        /* --- 7. FOOTER --- */
+        footer {
+            background-color: var(--color-text);
+            color: #fff;
+            padding: 4rem var(--spacing-container) 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.8;
+            max-width: 400px;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--color-accent);
+        }
+
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-col a {
+            font-size: 0.9rem;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: #fff;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Trigger for Hover Effect -->
+    <div class="nav-trigger"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <a href="index.html" class="logo">RIGHT WAY</a>
+        <div class="nav-links">
+            <a href="shop.html">Shop</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#lookbook">Lookbook</a>
+            <a href="#footer">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title reveal">Your Page Title</h1>
+        <p class="page-subtitle reveal" style="transition-delay: 0.2s;">
+            Your page subtitle or description goes here.
+        </p>
+    </div>
+
+    <!-- Main Content Section -->
+    <section class="content-section">
+        <div class="container">
+            <!-- 
+                ADD YOUR CONTENT HERE
+                
+                Use these classes for animations:
+                - class="reveal" - for fade-in from bottom animation
+                - style="transition-delay: 0.1s;" - to stagger animations
+                
+                Examples:
+                <div class="reveal">Content 1</div>
+                <div class="reveal" style="transition-delay: 0.1s;">Content 2</div>
+                <div class="reveal" style="transition-delay: 0.2s;">Content 3</div>
+                
+                For images use:
+                <div class="img-placeholder" style="aspect-ratio: 16/9;"></div>
+            -->
+            
+            <h2 class="section-title reveal">Section Title</h2>
+            <p class="text-body-large reveal">Your content goes here...</p>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>RIGHT WAY</h3>
+                <p>Choose the right path. Designed in the shadows, built for the light.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="shop.html">New Arrivals</a></li>
+                        <li><a href="shop.html">Outerwear</a></li>
+                        <li><a href="shop.html">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Brand</h4>
+                    <ul>
+                        <li><a href="index.html#about">Philosophy</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul>
+                        <li>
+                            <a href="#" class="social-link">
+                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/RighttWayy" class="social-link">
+                                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.891 8.11l-1.92 9.041c-.145.639-.524.796-1.059.496l-2.92-2.154-1.408 1.354c-.156.156-.285.285-.586.285l.209-2.962 5.39-4.868c.234-.209-.051-.325-.363-.117l-6.662 4.195-2.871-.899c-.624-.195-.636-.624.13-.923l11.222-4.325c.519-.195.973.116.842.857z"/></svg>
+                                Telegram
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Right Way Clothing. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. NAV SCROLL LOGIC
+            const nav = document.getElementById('main-nav');
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    nav.classList.add('nav-hidden');
+                } else {
+                    nav.classList.remove('nav-hidden');
+                }
+                lastScrollY = currentScrollY;
+            });
+
+            // 2. REVEAL ANIMATIONS
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+
+            // 3. ADD YOUR CUSTOM JAVASCRIPT HERE
+            
+        });
+    </script>
+</body>
+</html>

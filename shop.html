@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Right Way | Official Store</title>
+    <title>Shop | Right Way</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,8 +49,8 @@
             letter-spacing: 1px;
         }
 
-        .display-text {
-            font-size: clamp(3rem, 10vw, 8rem);
+        .page-title {
+            font-size: clamp(3rem, 8vw, 6rem);
             line-height: 0.9;
             margin-bottom: 1rem;
         }
@@ -60,12 +60,6 @@
             margin-bottom: 3rem;
             position: relative;
             display: inline-block;
-        }
-
-        .text-body-large {
-            font-size: 1.25rem;
-            max-width: 600px;
-            color: var(--color-text);
         }
 
         /* --- 3. UTILITIES & ANIMATION --- */
@@ -133,7 +127,7 @@
             100% { left: 200%; }
         }
 
-        /* --- 4. NAVIGATION (UPDATED: SOLID & CLEAN) --- */
+        /* --- 4. NAVIGATION --- */
         .nav-trigger {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 20px;
@@ -145,16 +139,15 @@
             top: 0;
             left: 0;
             width: 100%;
-            padding: 1.5rem var(--spacing-container); /* Чуть уменьшил паддинг для аккуратности */
+            padding: 1.5rem var(--spacing-container);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
             
-            /* UPDATED: Solid Background Always */
             background-color: var(--color-bg); 
             color: var(--color-text);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Легкая тень */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             border-bottom: 1px solid rgba(0,0,0,0.05);
 
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -165,7 +158,6 @@
             transform: translateY(-100%);
         }
 
-        /* Hover logic simplified: just bring it back if hidden */
         nav:hover, .nav-trigger:hover + nav {
             transform: translateY(0);
         }
@@ -192,80 +184,91 @@
         }
         .nav-links a:hover::after { width: 100%; }
 
-        /* --- 5. HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            width: 100%;
+        /* --- 5. PAGE HEADER --- */
+        .page-header {
+            padding: 12rem 0 4rem;
+            text-align: center;
+        }
+
+        .page-header .page-title {
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- 6. FILTER BAR --- */
+        .filter-bar {
             display: flex;
-            flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
-            padding: 0 var(--spacing-container);
-            position: relative;
-            /* Added padding-top to account for fixed header so content isn't cut off */
-            padding-top: 80px; 
-        }
-
-        .hero-content {
-            z-index: 2;
-            max-width: 80%;
-        }
-
-        .hero-accent-line {
-            width: 80px;
-            height: 4px;
-            background-color: var(--color-accent);
-            margin-bottom: 2rem;
-            transform-origin: left;
-            animation: growLine 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes growLine {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
-        }
-
-        /* --- 6. ABOUT SECTION --- */
-        .about { padding: 10rem 0; }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-text h2 { margin-bottom: 2rem; }
-        .about-img { height: 600px; }
-
-        /* --- 7. COLLECTION SECTION --- */
-        .collection { padding: 5rem 0; }
-
-        .collection-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 4rem;
+            gap: 2rem;
+            padding: 2rem 0;
+            margin-bottom: 3rem;
             border-bottom: 1px solid rgba(0,0,0,0.1);
-            padding-bottom: 1rem;
+        }
+
+        .filter-btn {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            color: var(--color-accent);
+        }
+
+        .filter-btn.active::after {
+            width: 100%;
+        }
+
+        /* --- 7. PRODUCT GRID --- */
+        .shop-section {
+            padding: 2rem 0 8rem;
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem; /* Column gap */
-            row-gap: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
         }
 
-        .product-card { cursor: pointer; }
+        .product-card {
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
 
         .product-img {
-            height: 450px;
-            margin-bottom: 1.5rem;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            aspect-ratio: 3/4;
+            margin-bottom: 1rem;
+            border-radius: 0px;
         }
-
-        .product-card:hover .product-img { transform: scale(0.98); }
 
         .product-info {
             display: flex;
@@ -273,52 +276,38 @@
             align-items: center;
             font-family: var(--font-heading);
             text-transform: uppercase;
-            font-weight: 500;
+            font-size: 1rem;
         }
 
-        .product-name { font-size: 1.1rem; }
-        .product-price { color: var(--color-accent); font-weight: 700; }
-
-        /* --- 8. LOOKBOOK SECTION --- */
-        .lookbook {
-            padding: 10rem 0;
-            background-color: #cfcfcf; /* Slightly darker to differentiate section */
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: 200px;
-            gap: 1.5rem;
-        }
-
-        .gallery-item { position: relative; }
-
-        /* Brutalist asymmetry */
-        .g-1 { grid-column: span 6; grid-row: span 3; }
-        .g-2 { grid-column: span 6; grid-row: span 2; }
-        .g-3 { grid-column: span 3; grid-row: span 2; }
-        .g-4 { grid-column: span 3; grid-row: span 1; }
-
-        .gallery-img {
-            height: 100%;
-            transition: opacity 0.4s;
-        }
-
-        .gallery-item:hover .gallery-img { opacity: 0.8; }
-
-        /* --- 9. FOOTER --- */
-        footer {
-            background-color: #111;
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--color-accent);
             color: #fff;
-            padding: 6rem var(--spacing-container) 2rem;
+            padding: 0.5rem 1rem;
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-card {
+            position: relative;
+        }
+
+        /* --- 8. FOOTER --- */
+        footer {
+            background-color: var(--color-text);
+            color: #fff;
+            padding: 4rem var(--spacing-container) 2rem;
         }
 
         .footer-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-bottom: 4rem;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
         }
 
         .footer-brand h3 {
@@ -327,155 +316,111 @@
         }
 
         .footer-brand p {
-            color: #888;
-            max-width: 300px;
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.8;
+            max-width: 400px;
         }
 
         .footer-links {
-            display: flex;
-            gap: 4rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
         }
 
         .footer-col h4 {
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
             color: var(--color-accent);
         }
 
-        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
 
-        /* UPDATED: Styles for Social Icons */
+        .footer-col a {
+            font-size: 0.9rem;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: #fff;
+        }
+
         .social-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #aaa;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-        .social-link:hover { color: #fff; }
-        .social-link svg { 
-            width: 18px; 
-            height: 18px; 
-            fill: currentColor; /* Inherit text color */
+            gap: 0.5rem;
         }
 
-        /* Keep styles for regular footer links */
-        .footer-col ul li a:not(.social-link) {
-            color: #aaa;
-            font-size: 0.9rem;
-            transition: color 0.3s;
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
-        .footer-col ul li a:not(.social-link):hover { color: #fff; }
 
         .copyright {
-            border-top: 1px solid #222;
-            padding-top: 2rem;
             text-align: center;
-            color: #444;
-            font-size: 0.8rem;
-            text-transform: uppercase;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #999;
+            font-size: 0.85rem;
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 1024px) {
-            .about-grid { grid-template-columns: 1fr; }
-            .about-img { height: 400px; order: -1; }
-        }
-
-        @media (max-width: 768px) {
-            .display-text { font-size: 4rem; }
-            .gallery-grid { display: flex; flex-direction: column; }
-            .g-1, .g-2, .g-3, .g-4 { height: 400px; }
-            .footer-content { flex-direction: column; gap: 3rem; }
-            .nav-links { display: none; } /* Simplified for demo */
+        @media (max-width: 900px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+            .filter-bar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="nav-trigger"></div>
 
     <nav id="main-nav">
-        <a href="#" class="logo">RIGHT WAY</a>
+        <a href="index.html" class="logo">RIGHT WAY</a>
         <div class="nav-links">
             <a href="shop.html">Shop</a>
-            <a href="#about">About</a>
-            <a href="#lookbook">Lookbook</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#lookbook">Lookbook</a>
             <a href="#footer">Contact</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-accent-line"></div>
-            <h1 class="display-text reveal">DISCIPLINE IS<br>THE ULTIMATE<br>FREEDOM.</h1>
-            <p class="text-body-large reveal" style="transition-delay: 0.2s; margin-bottom: 2.5rem;">
-                Premium streetwear for those who choose the hard path.
-            </p>
-            <div class="reveal" style="transition-delay: 0.4s;">
-                <a href="#collection" class="btn">View Collection</a>
-            </div>
+    <div class="page-header">
+        <h1 class="page-title reveal">Full Collection</h1>
+        <p class="page-subtitle reveal" style="transition-delay: 0.2s;">
+            Premium streetwear designed for those who refuse to compromise.
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="filter-bar reveal">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="outerwear">Outerwear</button>
+            <button class="filter-btn" data-filter="tops">Tops</button>
+            <button class="filter-btn" data-filter="bottoms">Bottoms</button>
+            <button class="filter-btn" data-filter="accessories">Accessories</button>
         </div>
-    </section>
+    </div>
 
-    <section id="about" class="about">
+    <section class="shop-section">
         <div class="container">
-            <div class="about-grid">
-                <div class="about-text">
-                    <h2 class="section-title reveal">The Philosophy</h2>
-                    <p class="text-body-large reveal">
-                        Right Way isn't not that short and it's not that simple. It's a path where efficiency meets responsibility, and results meet respect.
-                        <br><br>
-                        Right Way — is what you need.
-                    </p>
-                </div>
-                <div class="about-img img-placeholder reveal"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="collection" class="collection">
-        <div class="container">
-            <div class="collection-header reveal">
-                <h2 class="section-title" style="margin-bottom:0">Latest Drop</h2>
-                <a href="shop.html" style="text-decoration: underline; font-family: var(--font-heading);">View All</a>
-            </div>
-
             <div class="product-grid">
-                <div class="product-card reveal">
-                    <div class="product-img img-placeholder"></div>
-                    <div class="product-info">
-                        <span class="product-name">Structure Hoodie</span>
-                        <span class="product-price">$180</span>
-                    </div>
-                </div>
-
-                <div class="product-card reveal" style="transition-delay: 0.1s;">
-                    <div class="product-img img-placeholder"></div>
-                    <div class="product-info">
-                        <span class="product-name">Oversized Tee</span>
-                        <span class="product-price">$85</span>
-                    </div>
-                </div>
-
-                <div class="product-card reveal" style="transition-delay: 0.2s;">
-                    <div class="product-img img-placeholder"></div>
-                    <div class="product-info">
-                        <span class="product-name">Cargo Trousers</span>
-                        <span class="product-price">$220</span>
-                    </div>
-                </div>
-
-                 <div class="product-card reveal">
-                    <div class="product-img img-placeholder"></div>
-                    <div class="product-info">
-                        <span class="product-name">Tactical Vest</span>
-                        <span class="product-price">$350</span>
-                    </div>
-                </div>
-
-                 <div class="product-card reveal" style="transition-delay: 0.1s;">
+                <!-- Outerwear -->
+                <div class="product-card reveal" data-category="outerwear">
+                    <div class="product-badge">New</div>
                     <div class="product-img img-placeholder"></div>
                     <div class="product-info">
                         <span class="product-name">Shell Jacket</span>
@@ -483,25 +428,139 @@
                     </div>
                 </div>
 
-                 <div class="product-card reveal" style="transition-delay: 0.2s;">
+                <div class="product-card reveal" style="transition-delay: 0.1s;" data-category="outerwear">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Tactical Vest</span>
+                        <span class="product-price">$350</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.2s;" data-category="outerwear">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Windbreaker</span>
+                        <span class="product-price">$280</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-category="outerwear">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Puffer Jacket</span>
+                        <span class="product-price">$390</span>
+                    </div>
+                </div>
+
+                <!-- Tops -->
+                <div class="product-card reveal" style="transition-delay: 0.1s;" data-category="tops">
+                    <div class="product-badge">New</div>
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Structure Hoodie</span>
+                        <span class="product-price">$180</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.2s;" data-category="tops">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Oversized Tee</span>
+                        <span class="product-price">$85</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-category="tops">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Long Sleeve Base</span>
+                        <span class="product-price">$95</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.1s;" data-category="tops">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Graphic Tee</span>
+                        <span class="product-price">$75</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.2s;" data-category="tops">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Zip Hoodie</span>
+                        <span class="product-price">$165</span>
+                    </div>
+                </div>
+
+                <!-- Bottoms -->
+                <div class="product-card reveal" data-category="bottoms">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Cargo Trousers</span>
+                        <span class="product-price">$220</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.1s;" data-category="bottoms">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Tech Pants</span>
+                        <span class="product-price">$195</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.2s;" data-category="bottoms">
+                    <div class="product-badge">New</div>
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Utility Shorts</span>
+                        <span class="product-price">$140</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-category="bottoms">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Joggers</span>
+                        <span class="product-price">$155</span>
+                    </div>
+                </div>
+
+                <!-- Accessories -->
+                <div class="product-card reveal" style="transition-delay: 0.1s;" data-category="accessories">
                     <div class="product-img img-placeholder"></div>
                     <div class="product-info">
                         <span class="product-name">Utility Belt</span>
                         <span class="product-price">$60</span>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="lookbook" class="lookbook">
-        <div class="container">
-            <h2 class="section-title reveal" style="margin-bottom: 2rem; color: #1f1f1f;">Visual Index</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item g-1 reveal"><div class="gallery-img img-placeholder"></div></div>
-                <div class="gallery-item g-2 reveal" style="transition-delay: 0.1s;"><div class="gallery-img img-placeholder"></div></div>
-                <div class="gallery-item g-3 reveal" style="transition-delay: 0.2s;"><div class="gallery-img img-placeholder"></div></div>
-                <div class="gallery-item g-4 reveal" style="transition-delay: 0.3s;"><div class="gallery-img img-placeholder"></div></div>
+                <div class="product-card reveal" style="transition-delay: 0.2s;" data-category="accessories">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Tactical Backpack</span>
+                        <span class="product-price">$180</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" data-category="accessories">
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Beanie</span>
+                        <span class="product-price">$45</span>
+                    </div>
+                </div>
+
+                <div class="product-card reveal" style="transition-delay: 0.1s;" data-category="accessories">
+                    <div class="product-badge">New</div>
+                    <div class="product-img img-placeholder"></div>
+                    <div class="product-info">
+                        <span class="product-name">Cap</span>
+                        <span class="product-price">$50</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -516,15 +575,15 @@
                 <div class="footer-col">
                     <h4>Shop</h4>
                     <ul>
-                        <li><a href="#">New Arrivals</a></li>
-                        <li><a href="#">Outerwear</a></li>
-                        <li><a href="#">Accessories</a></li>
+                        <li><a href="shop.html">New Arrivals</a></li>
+                        <li><a href="shop.html">Outerwear</a></li>
+                        <li><a href="shop.html">Accessories</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Brand</h4>
                     <ul>
-                        <li><a href="#">Philosophy</a></li>
+                        <li><a href="index.html#about">Philosophy</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">Press</a></li>
                     </ul>
@@ -563,7 +622,6 @@
             window.addEventListener('scroll', () => {
                 const currentScrollY = window.scrollY;
                 
-                // Hide nav only if scrolling DOWN and not at the very top
                 if (currentScrollY > lastScrollY && currentScrollY > 100) {
                     nav.classList.add('nav-hidden');
                 } else {
@@ -589,6 +647,34 @@
 
             const revealElements = document.querySelectorAll('.reveal');
             revealElements.forEach(el => observer.observe(el));
+
+            // 3. FILTER FUNCTIONALITY
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.dataset.filter;
+                    
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Filter products
+                    productCards.forEach(card => {
+                        const category = card.dataset.category;
+                        
+                        if (filter === 'all' || category === filter) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.classList.add('active');
+                            }, 10);
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
         });
     </script>
 </body>
