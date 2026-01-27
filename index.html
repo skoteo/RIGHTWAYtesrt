@@ -403,6 +403,14 @@
             <a href="#about">About</a>
             <a href="#lookbook">Lookbook</a>
             <a href="#footer">Contact</a>
+            <a href="cart.html" style="position: relative;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 2L7 6H3L6 20H18L21 6H17L15 2H9Z"/>
+                    <path d="M9 10V6"/>
+                    <path d="M15 10V6"/>
+                </svg>
+                <span id="cartCount" style="position: absolute; top: -8px; right: -8px; background-color: var(--color-accent); color: #fff; border-radius: 50%; width: 20px; height: 20px; display: none; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">0</span>
+            </a>
         </div>
     </nav>
 
@@ -444,7 +452,9 @@
 
             <div class="product-grid">
                 <div class="product-card reveal">
+                <a href="product.html" class="product-card">
                     <div class="product-img img-placeholder"></div>
+                </a>
                     <div class="product-info">
                         <span class="product-name">Structure Hoodie</span>
                         <span class="product-price">$180</span>
@@ -452,7 +462,9 @@
                 </div>
 
                 <div class="product-card reveal" style="transition-delay: 0.1s;">
+                <a href="product.html" class="product-card">
                     <div class="product-img img-placeholder"></div>
+                </a>
                     <div class="product-info">
                         <span class="product-name">Oversized Tee</span>
                         <span class="product-price">$85</span>
@@ -460,7 +472,9 @@
                 </div>
 
                 <div class="product-card reveal" style="transition-delay: 0.2s;">
+                <a href="product.html" class="product-card">
                     <div class="product-img img-placeholder"></div>
+                </a>
                     <div class="product-info">
                         <span class="product-name">Cargo Trousers</span>
                         <span class="product-price">$220</span>
@@ -468,7 +482,9 @@
                 </div>
 
                  <div class="product-card reveal">
+                <a href="product.html" class="product-card">
                     <div class="product-img img-placeholder"></div>
+                </a>
                     <div class="product-info">
                         <span class="product-name">Tactical Vest</span>
                         <span class="product-price">$350</span>
@@ -476,7 +492,9 @@
                 </div>
 
                  <div class="product-card reveal" style="transition-delay: 0.1s;">
+                <a href="product.html" class="product-card">
                     <div class="product-img img-placeholder"></div>
+                </a>
                     <div class="product-info">
                         <span class="product-name">Shell Jacket</span>
                         <span class="product-price">$410</span>
@@ -484,7 +502,9 @@
                 </div>
 
                  <div class="product-card reveal" style="transition-delay: 0.2s;">
+                <a href="product.html" class="product-card">
                     <div class="product-img img-placeholder"></div>
+                </a>
                     <div class="product-info">
                         <span class="product-name">Utility Belt</span>
                         <span class="product-price">$60</span>
@@ -526,7 +546,6 @@
                     <ul>
                         <li><a href="#">Philosophy</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -553,6 +572,7 @@
         </div>
     </footer>
 
+    <script src="cart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             
