@@ -199,5 +199,4 @@ function formatOrderForTelegram() {
 // Initialize cart count on page load
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
-    displayCart();
 });

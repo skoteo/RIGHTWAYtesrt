@@ -789,14 +789,17 @@
                     return;
                 }
                 
-                const item = {
-                    name: 'Structure Hoodie',
-                    price: 180,
-                    size: selectedSize.textContent,
-                    quantity: parseInt(qtyInput.value)
-                };
+const item = {
+    id: 'rw-hoodie-001',
+    name: 'Structure Hoodie',
+    price: 180,
+    size: selectedSize.textContent,
+    quantity: parseInt(qtyInput.value) || 1, // ← добавь "|| 1"
+    image: '' // Оставь пустым пока
+};
                 
                 addToCart(item);
+		updateCartCount();
             });
         });
     </script>

@@ -1,6 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<head>
+<style>
+    /* ГАРАНТИРОВАННЫЕ СТИЛИ ДЛЯ КОРЗИНЫ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        background: #d9d9d9;
+        font-family: 'Inter', sans-serif;
+        color: #1f1f1f;
+        line-height: 1.6;
+        padding-top: 100px;
+    }
+    
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px 4vw;
+        background: #d9d9d9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+        color: #1f1f1f;
+    }
+    
+    .cart-page {
+        padding: 20px 4vw;
+        min-height: 80vh;
+    }
+    
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .page-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 3rem;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+        line-height: 1;
+    }
+    
+    .cart-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 40px;
+    }
+    
+    .cart-items {
+        background: rgba(255,255,255,0.3);
+        padding: 30px;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .cart-item {
+        display: grid;
+        grid-template-columns: 120px 1fr auto;
+        gap: 20px;
+        padding: 25px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        align-items: center;
+    }
+    
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+    
+    .product-img {
+        width: 120px;
+        height: 160px;
+        background: #000;
+        overflow: hidden;
+    }
+    
+    .cart-item-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .cart-item-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .cart-item-price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .qty-btn {
+        width: 35px;
+        height: 35px;
+        border: 2px solid #000;
+        background: transparent;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .qty-btn:hover {
+        background: #000;
+        color: white;
+    }
+    
+    .qty-display {
+        width: 50px;
+        text-align: center;
+        font-family: 'Oswald', sans-serif;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    
+    .remove-btn {
+        background: none;
+        border: none;
+        color: #6B0000;
+        text-decoration: underline;
+        cursor: pointer;
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+    
+    .cart-summary {
+        background: rgba(255,255,255,0.3);
+        padding: 30px;
+        border: 1px solid rgba(0,0,0,0.1);
+        position: sticky;
+        top: 120px;
+    }
+    
+    .summary-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+    
+    .summary-row.total {
+        border-top: 2px solid #000;
+        padding-top: 15px;
+        margin-top: 20px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+    .btn-telegram {
+        width: 100%;
+        padding: 15px;
+        background: #0088cc;
+        color: white;
+        border: none;
+        font-family: 'Oswald', sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin-top: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: background 0.3s;
+    }
+    
+    .btn-telegram:hover {
+        background: #006699;
+    }
+    
+    .empty-cart {
+        text-align: center;
+        padding: 60px 20px;
+        grid-column: 1 / -1;
+    }
+    
+    .empty-cart-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+    
+    .btn {
+        display: inline-block;
+        padding: 12px 30px;
+        background: transparent;
+        border: 2px solid #000;
+        color: #000;
+        font-family: 'Oswald', sans-serif;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .btn:hover {
+        background: #000;
+        color: white;
+    }
+    
+    @media (max-width: 900px) {
+        .cart-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .cart-item {
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+        }
+        
+        .product-img {
+            width: 80px;
+            height: 120px;
+        }
+        
+        .cart-item-controls {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+</style>
+    <link rel="stylesheet" href="cart.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart | Right Way</title>
@@ -8,502 +263,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- 1. VARIABLES & RESET --- */
-        :root {
-            --color-bg: #d9d9d9;
-            --color-accent: #6B0000;
-            --color-text: #1f1f1f;
-            --color-text-light: #666666;
-            --color-placeholder: #000000;
-            
-            --font-heading: 'Oswald', sans-serif;
-            --font-body: 'Inter', sans-serif;
-
-            --spacing-container: 4vw;
-            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            font-family: var(--font-body);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        a { text-decoration: none; color: inherit; cursor: pointer; }
-        ul { list-style: none; }
-
-        /* --- 2. TYPOGRAPHY --- */
-        h1, h2, h3, h4 {
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .page-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            line-height: 0.9;
-            margin-bottom: 1rem;
-        }
-
-        /* --- 3. UTILITIES & ANIMATION --- */
-        .container {
-            padding: 0 var(--spacing-container);
-            max-width: 1920px;
-            margin: 0 auto;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background-color: transparent;
-            border: 2px solid var(--color-text);
-            color: var(--color-text);
-            font-family: var(--font-heading);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background-color: var(--color-accent);
-            border-color: var(--color-accent);
-            color: #fff;
-        }
-
-        .btn-primary {
-            background-color: var(--color-text);
-            color: #fff;
-            border-color: var(--color-text);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--color-accent);
-            border-color: var(--color-accent);
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .img-placeholder {
-            background-color: var(--color-placeholder);
-            width: 100%;
-            display: block;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .img-placeholder::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: shine 6s infinite;
-        }
-
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 200%; }
-            100% { left: 200%; }
-        }
-
-        /* --- 4. NAVIGATION --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.5rem var(--spacing-container);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background-color: var(--color-bg); 
-            color: var(--color-text);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            align-items: center;
-        }
-
-        .nav-links a { position: relative; }
-        .nav-links a::after {
-            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
-            background-color: currentColor; transition: width 0.3s ease;
-        }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* --- 5. CART ICON --- */
-        .cart-icon-wrapper {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: var(--color-accent);
-            color: #fff;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-
-        /* --- 6. CART PAGE --- */
-        .cart-page {
-            padding-top: 8rem;
-            padding-bottom: 4rem;
-            min-height: 100vh;
-        }
-
-        .cart-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 4rem;
-            align-items: start;
-        }
-
-        /* Cart Items */
-        .cart-items {
-            background: rgba(255,255,255,0.3);
-            padding: 2rem;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .cart-item {
-            display: grid;
-            grid-template-columns: 120px 1fr auto;
-            gap: 2rem;
-            padding: 2rem 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            align-items: center;
-        }
-
-        .cart-item:first-child {
-            padding-top: 0;
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-
-        .cart-item-image {
-            aspect-ratio: 3/4;
-            width: 120px;
-        }
-
-        .cart-item-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .cart-item-name {
-            font-family: var(--font-heading);
-            font-size: 1.25rem;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        .cart-item-size {
-            color: var(--color-text-light);
-            font-size: 0.9rem;
-        }
-
-        .cart-item-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-
-        .cart-item-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: flex-end;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .qty-btn {
-            width: 35px;
-            height: 35px;
-            border: 2px solid var(--color-text);
-            background: transparent;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .qty-btn:hover {
-            background-color: var(--color-text);
-            color: #fff;
-        }
-
-        .qty-display {
-            width: 50px;
-            text-align: center;
-            font-family: var(--font-heading);
-            font-weight: 700;
-        }
-
-        .remove-btn {
-            background: none;
-            border: none;
-            color: var(--color-accent);
-            font-size: 0.85rem;
-            text-decoration: underline;
-            cursor: pointer;
-            font-family: var(--font-heading);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .remove-btn:hover {
-            opacity: 0.7;
-        }
-
-        /* Empty Cart */
-        .empty-cart {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .empty-cart-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
-        }
-
-        .empty-cart h2 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-        }
-
-        .empty-cart p {
-            color: var(--color-text-light);
-            margin-bottom: 2rem;
-        }
-
-        /* Cart Summary */
-        .cart-summary {
-            background: rgba(255,255,255,0.3);
-            padding: 2rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            position: sticky;
-            top: 8rem;
-        }
-
-        .summary-title {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
-
-        .summary-row.total {
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-weight: 700;
-            padding-top: 1rem;
-            border-top: 2px solid var(--color-text);
-            margin-top: 1.5rem;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            margin-top: 1.5rem;
-        }
-
-        .continue-shopping {
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .continue-shopping a {
-            color: var(--color-text-light);
-            text-decoration: underline;
-            font-size: 0.9rem;
-        }
-
-        .continue-shopping a:hover {
-            color: var(--color-text);
-        }
-
-        /* --- 7. FOOTER --- */
-        footer {
-            background-color: var(--color-text);
-            color: #fff;
-            padding: 4rem var(--spacing-container) 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 4rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-brand p {
-            font-size: 0.95rem;
-            color: #ccc;
-            line-height: 1.8;
-            max-width: 400px;
-        }
-
-        .footer-links {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .footer-col h4 {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            color: var(--color-accent);
-        }
-
-        .footer-col ul {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .footer-col a {
-            font-size: 0.9rem;
-            color: #ccc;
-            transition: color 0.3s ease;
-        }
-
-        .footer-col a:hover {
-            color: #fff;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .social-link svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #999;
-            font-size: 0.85rem;
-        }
-
-        /* --- 8. RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .cart-container {
-                grid-template-columns: 1fr;
-            }
-
-            .cart-summary {
-                position: relative;
-                top: 0;
-            }
-
-            .cart-item {
-                grid-template-columns: 80px 1fr;
-                gap: 1rem;
-            }
-
-            .cart-item-image {
-                width: 80px;
-            }
-
-            .cart-item-controls {
-                grid-column: 1 / -1;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-            
-            .footer-links {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
+
 <body>
     <nav>
         <a href="index.html" class="logo">RIGHT WAY</a>
-        <div class="nav-links">
+        
+        <div class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
             <a href="shop.html">Shop</a>
             <a href="index.html#about">About</a>
             <a href="index.html#lookbook">Lookbook</a>
@@ -549,7 +321,6 @@
                     <ul>
                         <li><a href="index.html#about">Philosophy</a></li>
                         <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -579,7 +350,26 @@
     <script src="cart.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Reveal animations
+            // 1. MOBILE MENU TOGGLE
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    mobileMenuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                // Close menu when clicking on a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+
+            // 2. Reveal animations
             const observerOptions = {
                 threshold: 0.15,
                 rootMargin: "0px 0px -50px 0px"
@@ -597,7 +387,7 @@
             const revealElements = document.querySelectorAll('.reveal');
             revealElements.forEach(el => observer.observe(el));
 
-            // Load and display cart
+            // 3. Load and display cart
             displayCart();
         });
 
@@ -620,26 +410,31 @@
             let itemsHTML = '<div class="cart-items reveal">';
             
             cart.forEach((item, index) => {
+    const name = item.name || 'Unnamed Product';
+    const price = Number(item.price) || 0;
+    const quantity = Number(item.quantity) || 1;
+    const size = item.size || 'One Size';
                 itemsHTML += `
-                    <div class="cart-item">
-                        <div class="cart-item-image img-placeholder"></div>
-                        <div class="cart-item-details">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-size">Size: ${item.size}</div>
-                            <div class="cart-item-price">$${item.price}</div>
-                        </div>
-                        <div class="cart-item-controls">
-                            <div class="quantity-controls">
-                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
-                                <span class="qty-display">${item.quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
-                            </div>
-                            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-                        </div>
-                    </div>
-                `;
-            });
-            
+        <div class="cart-item">
+            <div class="product-img img-placeholder">
+                ${item.image ? `<img src="${item.image}" alt="${name}">` : ''}
+            </div>
+            <div class="cart-item-details">
+                <div class="cart-item-name">${name}</div>
+                <div class="cart-item-size">Size: ${size}</div>
+                <div class="cart-item-price">$${price.toFixed(2)}</div>
+            </div>
+            <div class="cart-item-controls">
+                <div class="quantity-controls">
+                    <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                    <span class="qty-display">${quantity}</span>
+                    <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                </div>
+                <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+            </div>
+        </div>
+    `;
+});
             itemsHTML += '</div>';
 
             const subtotal = calculateSubtotal();
@@ -662,7 +457,12 @@
                         <span>Total</span>
                         <span>$${total}</span>
                     </div>
-                    <button class="btn btn-primary checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+                    <button class="btn btn-telegram checkout-btn" onclick="checkoutToTelegram()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.891 8.11l-1.92 9.041c-.145.639-.524.796-1.059.496l-2.92-2.154-1.408 1.354c-.156.156-.285.285-.586.285l.209-2.962 5.39-4.868c.234-.209-.051-.325-.363-.117l-6.662 4.195-2.871-.899c-.624-.195-.636-.624.13-.923l11.222-4.325c.519-.195.973.116.842.857z"/>
+                        </svg>
+                        Order via Telegram
+                    </button>
                     <div class="continue-shopping">
                         <a href="shop.html">← Continue Shopping</a>
                     </div>
@@ -682,7 +482,6 @@
             
             saveCart(cart);
             displayCart();
-            updateCartCount();
         }
 
         function removeItem(index) {
@@ -690,7 +489,6 @@
             cart.splice(index, 1);
             saveCart(cart);
             displayCart();
-            updateCartCount();
         }
 
         function calculateSubtotal() {
@@ -698,8 +496,42 @@
             return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         }
 
-        function checkout() {
-            alert('Checkout functionality will be implemented here!\n\nYour order total: $' + (calculateSubtotal() + (calculateSubtotal() > 200 ? 0 : 15)));
+        function checkoutToTelegram() {
+            const cart = getCart();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Формируем сообщение для Telegram
+            let message = 'Привет! Хочу заказать:\n\n';
+            
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name} size ${item.size}`;
+                if (item.quantity > 1) {
+                    message += ` (x${item.quantity})`;
+                }
+                message += '\n';
+            });
+            
+            const subtotal = calculateSubtotal();
+            const shipping = subtotal > 200 ? 0 : 15;
+            const total = subtotal + shipping;
+            
+            message += `\n💰 Total: $${total}`;
+            
+            // Кодируем сообщение для URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Открываем Telegram с готовым сообщением
+            // ЗАМЕНИТЕ @YourUsername на ваш username в Telegram
+            const telegramUrl = `https://t.me/Raiwalkerr?text=${encodedMessage}`;
+            
+            window.open(telegramUrl, '_blank');
+            
+            // Показываем уведомление
+            showNotification('Redirecting to Telegram...');
         }
     </script>
 </body>

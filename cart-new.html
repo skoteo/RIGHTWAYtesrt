@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | Right Way</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cart.css">
+    
+    <style>
+        /* Дополнительные стили для корректного отображения */
+        .product-img {
+            aspect-ratio: 3/4;
+            width: 120px;
+            overflow: hidden;
+            background-color: #000000;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+        
+        /* Уведомления */
+        .cart-notification {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background-color: #1f1f1f;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">RIGHT WAY</a>
+        
+        <div class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="shop.html">Shop</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#lookbook">Lookbook</a>
+            <a href="#footer">Contact</a>
+            <a href="cart.html" class="cart-icon-wrapper">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 2L7 6H3L6 20H18L21 6H17L15 2H9Z"/>
+                    <path d="M9 10V6"/>
+                    <path d="M15 10V6"/>
+                </svg>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="cart-page">
+        <div class="container">
+            <h1 class="page-title reveal">Shopping Cart</h1>
+            
+            <div class="cart-container" id="cartContainer">
+                <!-- Cart items will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>RIGHT WAY</h3>
+                <p>Choose the right path. Designed in the shadows, built for the light.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="shop.html">New Arrivals</a></li>
+                        <li><a href="shop.html">Outerwear</a></li>
+                        <li><a href="shop.html">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Brand</h4>
+                    <ul>
+                        <li><a href="index.html#about">Philosophy</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul>
+                        <li>
+                            <a href="#" class="social-link">
+                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/RighttWayy" class="social-link">
+                                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.891 8.11l-1.92 9.041c-.145.639-.524.796-1.059.496l-2.92-2.154-1.408 1.354c-.156.156-.285.285-.586.285l.209-2.962 5.39-4.868c.234-.209-.051-.325-.363-.117l-6.662 4.195-2.871-.899c-.624-.195-.636-.624.13-.923l11.222-4.325c.519-.195.973.116.842.857z"/></svg>
+                                Telegram
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Right Way Clothing. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ====================================
+        // CART FUNCTIONS
+        // ====================================
+        
+        // Get cart from localStorage
+        function getCart() {
+            const cart = localStorage.getItem('rightway_cart');
+            return cart ? JSON.parse(cart) : [];
+        }
+
+        // Save cart to localStorage
+        function saveCart(cart) {
+            localStorage.setItem('rightway_cart', JSON.stringify(cart));
+            updateCartCount();
+        }
+
+        // Update cart count badge
+        function updateCartCount() {
+            const cart = getCart();
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            
+            const countElement = document.getElementById('cartCount');
+            if (countElement) {
+                countElement.textContent = totalItems;
+                if (totalItems > 0) {
+                    countElement.classList.add('has-items');
+                    countElement.style.display = 'flex';
+                } else {
+                    countElement.classList.remove('has-items');
+                    countElement.style.display = 'none';
+                }
+            }
+        }
+
+        // Show notification
+        function showNotification(message) {
+            // Remove existing notification if any
+            const existing = document.querySelector('.cart-notification');
+            if (existing) existing.remove();
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Calculate subtotal
+        function calculateSubtotal() {
+            const cart = getCart();
+            return cart.reduce((sum, item) => {
+                const price = Number(item.price) || 0;
+                const quantity = Number(item.quantity) || 1;
+                return sum + (price * quantity);
+            }, 0);
+        }
+
+        // Update quantity
+        function updateQuantity(index, change) {
+            const cart = getCart();
+            if (cart[index]) {
+                cart[index].quantity = (cart[index].quantity || 1) + change;
+                
+                if (cart[index].quantity < 1) {
+                    cart[index].quantity = 1;
+                }
+                
+                saveCart(cart);
+                displayCart();
+            }
+        }
+
+        // Remove item
+        function removeItem(index) {
+            const cart = getCart();
+            if (cart[index]) {
+                cart.splice(index, 1);
+                saveCart(cart);
+                displayCart();
+            }
+        }
+
+        // Display cart
+        function displayCart() {
+            const cart = getCart();
+            const container = document.getElementById('cartContainer');
+            
+            if (!container) return;
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart" style="grid-column: 1 / -1;">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h2>Your cart is empty</h2>
+                        <p>Add some items to get started</p>
+                        <a href="shop.html" class="btn">Continue Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let itemsHTML = '<div class="cart-items reveal">';
+            
+            cart.forEach((item, index) => {
+                const price = Number(item.price) || 0;
+                const quantity = Number(item.quantity) || 1;
+                const name = item.name || 'Unnamed Product';
+                const size = item.size || 'One Size';
+                const image = item.image || '';
+                
+                itemsHTML += `
+                    <div class="cart-item">
+                        <div class="product-img">
+                            ${image ? `<img src="${image}" alt="${name}">` : ''}
+                        </div>
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${name}</div>
+                            <div class="cart-item-size">Size: ${size}</div>
+                            <div class="cart-item-price">$${price.toFixed(2)}</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                                <span class="qty-display">${quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            itemsHTML += '</div>';
+
+            const subtotal = calculateSubtotal();
+            const shipping = subtotal > 200 ? 0 : 15;
+            const total = subtotal + shipping;
+
+            const summaryHTML = `
+                <div class="cart-summary reveal" style="transition-delay: 0.2s;">
+                    <h3 class="summary-title">Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                    </div>
+                    ${shipping > 0 ? `<p style="font-size: 0.85rem; color: var(--color-text-light); margin-top: 0.5rem;">Free shipping on orders over $200</p>` : ''}
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>$${total.toFixed(2)}</span>
+                    </div>
+                    <button class="btn btn-telegram checkout-btn" onclick="checkoutToTelegram()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.891 8.11l-1.92 9.041c-.145.639-.524.796-1.059.496l-2.92-2.154-1.408 1.354c-.156.156-.285.285-.586.285l.209-2.962 5.39-4.868c.234-.209-.051-.325-.363-.117l-6.662 4.195-2.871-.899c-.624-.195-.636-.624.13-.923l11.222-4.325c.519-.195.973.116.842.857z"/>
+                        </svg>
+                        Order via Telegram
+                    </button>
+                    <div class="continue-shopping">
+                        <a href="shop.html">← Continue Shopping</a>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = itemsHTML + summaryHTML;
+            
+            // Initialize reveal animations for new elements
+            initRevealAnimations();
+        }
+
+        // Checkout to Telegram
+        function checkoutToTelegram() {
+            const cart = getCart();
+            
+            if (cart.length === 0) {
+                showNotification('Your cart is empty!');
+                return;
+            }
+
+            // Format message for Telegram
+            let message = 'Привет! Хочу заказать:\n\n';
+            
+            cart.forEach((item, index) => {
+                const name = item.name || 'Unnamed Product';
+                const size = item.size || 'One Size';
+                const quantity = Number(item.quantity) || 1;
+                
+                message += `${index + 1}. ${name} (Size: ${size})`;
+                if (quantity > 1) {
+                    message += ` × ${quantity}`;
+                }
+                message += '\n';
+            });
+            
+            const subtotal = calculateSubtotal();
+            const shipping = subtotal > 200 ? 0 : 15;
+            const total = subtotal + shipping;
+            
+            message += `\n💰 Total: $${total.toFixed(2)}`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open Telegram
+            const telegramUrl = `https://t.me/Raiwalkerr?text=${encodedMessage}`;
+            
+            window.open(telegramUrl, '_blank');
+            
+            // Show notification
+            showNotification('Opening Telegram...');
+        }
+
+        // ====================================
+        // PAGE INITIALIZATION
+        // ====================================
+        
+        function initRevealAnimations() {
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        }
+
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    mobileMenuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                });
+
+                // Close menu when clicking on a link
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                    });
+                });
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Clear localStorage for testing (uncomment if needed)
+            // localStorage.removeItem('rightway_cart');
+            
+            initMobileMenu();
+            initRevealAnimations();
+            updateCartCount();
+            displayCart();
+            
+            // Add test items if cart is empty (for testing)
+            const cart = getCart();
+            if (cart.length === 0) {
+                // Uncomment to add test items
+                /*
+                const testItems = [
+                    {
+                        name: 'Structure Hoodie',
+                        price: 180,
+                        size: 'M',
+                        quantity: 1,
+                        image: ''
+                    },
+                    {
+                        name: 'Shell Jacket',
+                        price: 410,
+                        size: 'L',
+                        quantity: 1,
+                        image: ''
+                    }
+                ];
+                
+                testItems.forEach(item => {
+                    const cart = getCart();
+                    cart.push(item);
+                    saveCart(cart);
+                });
+                
+                displayCart();
+                */
+            }
+        });
+    </script>
+</body>
+</html>

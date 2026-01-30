@@ -427,14 +427,17 @@
         <div class="container">
             <div class="product-grid">
                 <!-- Outerwear -->
-                <a href="product.html" class="product-card reveal" data-category="outerwear">
-                    <div class="product-badge">New</div>
-                    <div class="product-img img-placeholder"></div>
-                    <div class="product-info">
-                        <span class="product-name">Shell Jacket</span>
-                        <span class="product-price">$410</span>
-                    </div>
-                </a>
+<div class="product-card reveal" data-category="outerwear"
+     data-name="Shell Jacket"
+     data-price="410">
+     
+    <div class="product-badge">New</div>
+    <div class="product-img img-placeholder"></div>
+    <div class="product-info">
+        <span class="product-name">Shell Jacket</span>
+        <span class="product-price">$410</span>
+    </div>
+</div>
 
                 <a href="product.html" class="product-card reveal" style="transition-delay: 0.1s;" data-category="outerwear">
                     <div class="product-img img-placeholder"></div>
@@ -685,6 +688,22 @@
                 });
             });
         });
+	// 4. ADD TO CART FROM SHOP
+const cards = document.querySelectorAll('.product-card');
+
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+        const item = {
+            name: card.dataset.name,
+            price: Number(card.dataset.price),
+            size: "One Size",
+            quantity: 1
+        };
+
+        addToCart(item);
+        updateCartCount();
+    });
+});
     </script>
 </body>
 </html>
