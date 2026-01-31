@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oversized tee | Right Way</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --color-bg: #d9d9d9;
+            --color-accent: #6B0000;
+            --color-text: #1f1f1f;
+            --color-text-light: #666666;
+            --color-placeholder: #000000;
+            
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+
+            --spacing-container: 4vw;
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+        ul { list-style: none; }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            padding: 0 var(--spacing-container);
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background-color: transparent;
+            border: 2px solid var(--color-text);
+            color: var(--color-text);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: var(--color-text);
+            color: #fff;
+            border-color: var(--color-text);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-placeholder {
+            background-color: var(--color-placeholder);
+            width: 100%;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .img-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background-color: var(--color-bg); 
+            color: var(--color-text);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-hidden { transform: translateY(-100%); }
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .nav-links a { position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
+            background-color: currentColor; transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        .product-page { padding-top: 8rem; padding-bottom: 4rem; }
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .product-gallery {
+            position: sticky;
+            top: 8rem;
+        }
+        .main-image {
+            aspect-ratio: 3/4;
+            margin-bottom: 1rem;
+            cursor: zoom-in;
+        }
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .thumbnail {
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--color-accent);
+        }
+
+        .product-info { padding-top: 2rem; }
+        .product-badge {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .price {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--color-accent);
+        }
+        .description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            color: var(--color-text-light);
+        }
+
+        .size-selector { margin-bottom: 2rem; }
+        .size-label {
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .size-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .size-option {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--color-text);
+            background: transparent;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .size-option:hover,
+        .size-option.selected {
+            background-color: var(--color-text);
+            color: #fff;
+        }
+        .size-option.unavailable {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .quantity-selector { margin-bottom: 2rem; }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--color-text);
+            background: transparent;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .qty-btn:hover {
+            background-color: var(--color-text);
+            color: #fff;
+        }
+        .qty-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border: 2px solid var(--color-text);
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .add-to-cart { width: 100%; margin-bottom: 2rem; }
+        .product-details {
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+        .detail-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        .detail-label {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .detail-value {
+            color: var(--color-text-light);
+        }
+
+        .related-section {
+            padding: 6rem 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            margin-top: 4rem;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-img {
+            aspect-ratio: 3/4;
+            margin-bottom: 1rem;
+        }
+        .product-card-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background-color: var(--color-text);
+            color: #fff;
+            padding: 4rem var(--spacing-container) 2rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+        .footer-brand h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .footer-brand p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.8;
+            max-width: 400px;
+        }
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .footer-col h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--color-accent);
+        }
+        .footer-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .footer-col a {
+            font-size: 0.9rem;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+        .footer-col a:hover {
+            color: #fff;
+        }
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 900px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .product-gallery {
+                position: relative;
+                top: 0;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-trigger"></div>
+
+    <nav id="main-nav">
+        <a href="index.html" class="logo">RIGHT WAY</a>
+        <div class="nav-links">
+            <a href="shop.html">Shop</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#lookbook">Lookbook</a>
+            <a href="#footer">Contact</a>
+            <a href="cart.html" style="position: relative;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 2L7 6H3L6 20H18L21 6H17L15 2H9Z"/>
+                    <path d="M9 10V6"/>
+                    <path d="M15 10V6"/>
+                </svg>
+                <span id="cartCount" style="position: absolute; top: -8px; right: -8px; background-color: var(--color-accent); color: #fff; border-radius: 50%; width: 20px; height: 20px; display: none; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="product-page">
+        <div class="container">
+            <div class="product-container">
+                <div class="product-gallery reveal">
+                    <div class="main-image img-placeholder" id="mainImage"></div>
+                    <div class="thumbnail-grid">
+                        <div class="thumbnail img-placeholder active"></div>
+                        <div class="thumbnail img-placeholder"></div>
+                        <div class="thumbnail img-placeholder"></div>
+                        <div class="thumbnail img-placeholder"></div>
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <div class="reveal">
+                        <span class="product-badge">NEW ARRIVAL</span>
+                    </div>
+                    
+                    <h1 class="product-title reveal" style="transition-delay: 0.1s;">Oversized tee</h1>
+                    
+                    <div class="price reveal" style="transition-delay: 0.2s;">$20</div>
+                    
+                    <p class="description reveal" style="transition-delay: 0.3s;">
+                        A versatile oversized T-shirt made of heavy cotton.It offers increased breathability and everyday comfort.
+			Made from 100% cotton with a 200 g/m² weight, it's ideal for urban environments and everyday wear.
+			The minimalist design emphasizes the quality of the materials and fit.
+                    </p>
+
+                    <div class="size-selector reveal" style="transition-delay: 0.4s;">
+                        <label class="size-label">Select Size</label>
+                        <div class="size-options">
+                            <button class="size-option">XS</button>
+                            <button class="size-option selected">S</button>
+                            <button class="size-option">M</button>
+                            <button class="size-option">L</button>
+                            <button class="size-option">XL</button>
+                        </div>
+                    </div>
+
+                    <div class="quantity-selector reveal" style="transition-delay: 0.5s;">
+                        <label class="size-label">Quantity</label>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" id="qtyMinus">−</button>
+                            <input type="number" class="qty-input" id="qtyInput" value="1" min="1" max="10">
+                            <button class="qty-btn" id="qtyPlus">+</button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary add-to-cart reveal" style="transition-delay: 0.6s;">
+                        Add to Cart
+                    </button>
+
+                    <div class="product-details reveal" style="transition-delay: 0.7s;">
+                        <div class="detail-item">
+                            <span class="detail-label">Material</span>
+                            <span class="detail-value">Cotton 100%</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Fit</span>
+                            <span class="detail-value">Oversize</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Breathability</span>
+                            <span class="detail-value">200g/m²</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Made In</span>
+                            <span class="detail-value">Kaliningrad</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">SKU</span>
+                            <span class="detail-value">RW-SJ-001-BLK</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="related-section">
+                <h2 class="section-title reveal">You May Also Like</h2>
+                <div class="product-grid">
+                    <a href="product-tactical-vest.html" class="product-card reveal">
+                        <div class="product-img img-placeholder"></div>
+                        <div class="product-card-info">
+                            <span class="product-name">Tactical Vest</span>
+                            <span class="product-price">$350</span>
+                        </div>
+                    </a>
+
+                    <a href="product-structure-hoodie.html" class="product-card reveal" style="transition-delay: 0.1s;">
+                        <div class="product-img img-placeholder"></div>
+                        <div class="product-card-info">
+                            <span class="product-name">Structure Hoodie</span>
+                            <span class="product-price">$180</span>
+                        </div>
+                    </a>
+
+                    <a href="product-cargo-trousers.html" class="product-card reveal" style="transition-delay: 0.2s;">
+                        <div class="product-img img-placeholder"></div>
+                        <div class="product-card-info">
+                            <span class="product-name">Cargo Trousers</span>
+                            <span class="product-price">$220</span>
+                        </div>
+                    </a>
+
+                    <a href="product-windbreaker.html" class="product-card reveal" style="transition-delay: 0.3s;">
+                        <div class="product-img img-placeholder"></div>
+                        <div class="product-card-info">
+                            <span class="product-name">Windbreaker</span>
+                            <span class="product-price">$280</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>RIGHT WAY</h3>
+                <p>Choose the right path. Designed in the shadows, built for the light.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="shop.html">New Arrivals</a></li>
+                        <li><a href="shop.html">Outerwear</a></li>
+                        <li><a href="shop.html">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Brand</h4>
+                    <ul>
+                        <li><a href="index.html#about">Philosophy</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <ul>
+                        <li>
+                            <a href="#" class="social-link">
+                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://t.me/RighttWayy" class="social-link">
+                                <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.891 8.11l-1.92 9.041c-.145.639-.524.796-1.059.496l-2.92-2.154-1.408 1.354c-.156.156-.285.285-.586.285l.209-2.962 5.39-4.868c.234-.209-.051-.325-.363-.117l-6.662 4.195-2.871-.899c-.624-.195-.636-.624.13-.923l11.222-4.325c.519-.195.973.116.842.857z"/></svg>
+                                Telegram
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Right Way Clothing. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // Nav scroll logic
+            const nav = document.getElementById('main-nav');
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    nav.classList.add('nav-hidden');
+                } else {
+                    nav.classList.remove('nav-hidden');
+                }
+                lastScrollY = currentScrollY;
+            });
+
+            // Reveal animations
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+
+            // Size selection
+            const sizeOptions = document.querySelectorAll('.size-option:not(.unavailable)');
+            sizeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    sizeOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+
+            // Quantity controls
+            const qtyInput = document.getElementById('qtyInput');
+            const qtyMinus = document.getElementById('qtyMinus');
+            const qtyPlus = document.getElementById('qtyPlus');
+
+            qtyMinus.addEventListener('click', () => {
+                let value = parseInt(qtyInput.value);
+                if (value > 1) {
+                    qtyInput.value = value - 1;
+                }
+            });
+
+            qtyPlus.addEventListener('click', () => {
+                let value = parseInt(qtyInput.value);
+                let max = parseInt(qtyInput.max);
+                if (value < max) {
+                    qtyInput.value = value + 1;
+                }
+            });
+
+            // Thumbnail gallery
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                });
+            });
+
+            // Add to Cart
+            const addToCartBtn = document.querySelector('.add-to-cart');
+            addToCartBtn.addEventListener('click', () => {
+                const selectedSize = document.querySelector('.size-option.selected');
+                
+                if (!selectedSize) {
+                    alert('Please select a size');
+                    return;
+                }
+                
+                const item = {
+                    id: 'rw-oversized-tee-001',
+                    name: 'Oversized tee',
+                    price: 20,
+                    size: selectedSize.textContent,
+                    quantity: parseInt(qtyInput.value) || 1,
+                    image: ''
+                };
+                
+                addToCart(item);
+                updateCartCount();
+                
+                // Show notification
+                showNotification('Oversized tee added to cart!');
+            });
+            
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 30px;
+                    background-color: #1f1f1f;
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 0;
+                    font-family: 'Oswald', sans-serif;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    z-index: 1000;
+                    animation: slideIn 0.3s ease;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
