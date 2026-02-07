@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cap 1 | Right Way</title>
+    <title>Utility Belt | Right Way</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -640,24 +640,29 @@ nav:hover, .nav-trigger:hover + nav {
                 <!-- Product Info -->
                 <div class="product-info">
                     <div class="reveal">
-                        <span class="product-badge">Headwear</span>
+                        <span class="product-badge">Accessories</span>
                     </div>
                     
-                    <h1 class="product-title reveal" style="transition-delay: 0.1s;">Cap</h1>
+                    <h1 class="product-title reveal" style="transition-delay: 0.1s;">Utility Belt</h1>
                     
-                    <div class="price reveal" style="transition-delay: 0.2s;">$50</div>
+                    <div class="price reveal" style="transition-delay: 0.2s;">$60</div>
                     
                     <p class="description reveal" style="transition-delay: 0.3s;">
-                        Minimalist unstructured cap made from premium Italian wool felt. 
-                        Features an embroidered logo, adjustable strap, and a curved visor. 
-                        Perfect for adding a subtle finishing touch to any outfit.
+                        A versatile utility belt crafted from premium full-grain leather and durable nylon webbing. 
+                        Features multiple attachment points, a quick-release buckle, and modular pouches. 
+                        Designed for everyday carry and tactical use.
                     </p>
 
                     <!-- Size Selector -->
                     <div class="size-selector reveal" style="transition-delay: 0.4s;">
                         <label class="size-label">Select Size</label>
                         <div class="size-options">
-                            <button class="size-option selected">Adjustable</button>
+                            <button class="size-option">S (28-32")</button>
+                            <button class="size-option selected">M (32-36")</button>
+                            <button class="size-option">L (36-40")</button>
+                            <button class="size-option">XL (40-44")</button>
+                            <button class="size-option">XXL (44-48")</button>
+                            <button class="size-option unavailable">XXXL</button>
                         </div>
                     </div>
 
@@ -680,23 +685,23 @@ nav:hover, .nav-trigger:hover + nav {
                     <div class="product-details reveal" style="transition-delay: 0.7s;">
                         <div class="detail-item">
                             <span class="detail-label">Material</span>
-                            <span class="detail-value">100% Italian Wool Felt</span>
+                            <span class="detail-value">Full-Grain Leather & 1000D Nylon</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Closure</span>
-                            <span class="detail-value">Adjustable leather strap</span>
+                            <span class="detail-label">Weight</span>
+                            <span class="detail-value">450g (without attachments)</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Care</span>
-                            <span class="detail-value">Spot clean only, Air dry</span>
+                            <span class="detail-value">Wipe clean with damp cloth</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Made In</span>
-                            <span class="detail-value">Italy</span>
+                            <span class="detail-value">USA</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">SKU</span>
-                            <span class="detail-value">RW-CP-001-BLK</span>
+                            <span class="detail-value">RW-BL-001-BLK</span>
                         </div>
                     </div>
                 </div>
@@ -730,11 +735,11 @@ nav:hover, .nav-trigger:hover + nav {
                         </div>
                     </a>
 
-                    <a href="product-beach-shorts.html" class="product-card reveal" style="transition-delay: 0.1s;">
+                    <a href="product-cap-1.html" class="product-card reveal" style="transition-delay: 0.1s;">
                         <div class="product-img img-placeholder"></div>
                         <div class="product-card-info">
-                            <span class="product-name">Beach Shorts</span>
-                            <span class="product-price">$140</span>
+                            <span class="product-name">Cap 1</span>
+                            <span class="product-price">$50</span>
                         </div>
                     </a>
                 </div>
@@ -893,9 +898,9 @@ if (mobileMenuToggle && navLinks) {
                 }
                 
 const item = {
-    id: 'rw-cap-001',
-    name: 'Cap 1',
-    price: 50,
+    id: 'rw-belt-001',
+    name: 'Utility Belt',
+    price: 60,
     size: selectedSize.textContent,
     quantity: parseInt(qtyInput.value) || 1,
     image: ''
